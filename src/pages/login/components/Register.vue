@@ -17,15 +17,15 @@
       </t-form-item>
     </template>
 
-    <template v-if="type == 'email'">
-      <t-form-item name="email">
-        <t-input v-model="formData.email" type="text" size="large" placeholder="请输入您的邮箱">
-          <template #prefix-icon>
-            <t-icon name="mail" />
-          </template>
-        </t-input>
-      </t-form-item>
-    </template>
+<!--    <template v-if="type == 'email'">-->
+<!--      <t-form-item name="email">-->
+<!--        <t-input v-model="formData.email" type="text" size="large" placeholder="请输入您的邮箱">-->
+<!--          <template #prefix-icon>-->
+<!--            <t-icon name="mail" />-->
+<!--          </template>-->
+<!--        </t-input>-->
+<!--      </t-form-item>-->
+<!--    </template>-->
 
     <t-form-item name="password">
       <t-input

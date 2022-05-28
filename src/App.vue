@@ -17,7 +17,7 @@ onMounted(() => {
 });
 </script>
 <style lang="less" scoped>
-@import '@/style/variables.less';
+@import './style/variables.less';
 
 #nprogress .bar {
   background: @brand-color !important;

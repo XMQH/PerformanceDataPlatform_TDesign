@@ -15,7 +15,12 @@ const { whiteListRouters } = permissionStore;
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
 
-  const { token } = userStore;
+  // const { token } = userStore;
+  // 暂时不用store，避开权限检查，写死
+  const token = {
+    // main_: 'main_token',
+    dev_: 'dev_token',
+  };
   if (token) {
     if (to.path === '/login') {
       userStore.logout();

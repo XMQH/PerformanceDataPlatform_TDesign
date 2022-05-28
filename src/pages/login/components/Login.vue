@@ -8,21 +8,21 @@
     @submit="onSubmit"
   >
     <template v-if="type == 'password'">
-      <t-form-item name="account">
-        <t-input v-model="formData.account" size="large" placeholder="请输入账号：admin">
+      <t-form-item name="userAccount">
+        <t-input v-model="formData.userAccount" size="large" placeholder="请输入账号">
           <template #prefix-icon>
             <t-icon name="user" />
           </template>
         </t-input>
       </t-form-item>
 
-      <t-form-item name="password">
+      <t-form-item name="userPassword">
         <t-input
-          v-model="formData.password"
+          v-model="formData.userPassword"
           size="large"
           :type="showPsw ? 'text' : 'password'"
           clearable
-          placeholder="请输入登录密码：admin"
+          placeholder="请输入登录密码"
         >
           <template #prefix-icon>
             <t-icon name="lock-on" />
@@ -38,61 +38,34 @@
         <span class="tip">忘记账号？</span>
       </div>
     </template>
-
-    <!-- 扫码登陆 -->
-    <template v-else-if="type == 'qrcode'">
-      <div class="tip-container">
-        <span class="tip">请使用微信扫一扫登录</span>
-        <span class="refresh">刷新 <t-icon name="refresh" /> </span>
-      </div>
-      <qrcode-vue value="" :size="192" level="H" />
-    </template>
-
-    <!-- 手机号登陆 -->
-    <template v-else>
-      <t-form-item class="verification-code" name="verifyCode">
-        <t-input v-model="formData.verifyCode" size="large" placeholder="请输入验证码" />
-        <t-button variant="outline" :disabled="countDown > 0" @click="handleCounter">
-          {{ countDown == 0 ? '发送验证码' : `${countDown}秒后可重发` }}
-        </t-button>
-      </t-form-item>
-    </template>
-
     <t-form-item v-if="type !== 'qrcode'" class="btn-container">
       <t-button block size="large" type="submit"> 登录 </t-button>
     </t-form-item>
-
-    <div class="switch-container">
-      <span v-if="type !== 'password'" class="tip" @click="switchType('password')">使用账号密码登录</span>
-      <span v-if="type !== 'qrcode'" class="tip" @click="switchType('qrcode')">使用微信扫码登录</span>
-      <span v-if="type !== 'phone'" class="tip" @click="switchType('phone')">使用手机号登录</span>
-    </div>
   </t-form>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import QrcodeVue from 'qrcode.vue';
+// import QrcodeVue from 'qrcode.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { useCounter } from '@/hooks';
+// import { useCounter } from '@/hooks';
 import { useUserStore } from '@/store';
-
+import request from '@/utils/request';
 const userStore = useUserStore();
 
 const INITIAL_DATA = {
-  phone: '',
-  account: 'admin',
-  password: 'admin',
-  verifyCode: '',
-  checked: false,
+  userAccount: 'admin',
+  userPassword: '123456',
+  // checked: false,
 };
 
 const FORM_RULES = {
-  phone: [{ required: true, message: '手机号必填', type: 'error' }],
-  account: [{ required: true, message: '账号必填', type: 'error' }],
-  password: [{ required: true, message: '密码必填', type: 'error' }],
-  verifyCode: [{ required: true, message: '验证码必填', type: 'error' }],
+  userAccount: [{ required: true, message: '账号必填', type: 'error' }],
+  userPassword: [
+    { required: true, message: '密码必填', type: 'error' },
+    { min: 4, message: '密码长度大于四位', type: 'error' },
+  ],
 };
 
 const type = ref('password');
@@ -100,19 +73,19 @@ const type = ref('password');
 const formData = ref({ ...INITIAL_DATA });
 const showPsw = ref(false);
 
-const [countDown, handleCounter] = useCounter();
-
-const switchType = (val: string) => {
-  type.value = val;
-};
+// const [countDown, handleCounter] = useCounter();
+//
+// const switchType = (val: string) => {
+//   type.value = val;
+// };
 
 const router = useRouter();
 
+console.log(formData);
 const onSubmit = async ({ validateResult }) => {
   if (validateResult === true) {
     try {
       await userStore.login(formData.value);
-
       MessagePlugin.success('登陆成功');
       router.push({
         path: '/dashboard/base',
