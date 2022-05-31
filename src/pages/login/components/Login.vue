@@ -91,7 +91,7 @@ const onSubmit = async ({ validateResult }) => {
         path: '/dashboard/base',
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       MessagePlugin.error(e.message);
     }
   }

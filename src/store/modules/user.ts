@@ -21,24 +21,14 @@ export const useUserStore = defineStore('user', {
     async login(userInfo: Record<string, unknown>) {
       const Login = async (userInfo: Record<string, unknown>) => {
         // 登录请求流程
-        console.log(userInfo);
         // eslint-disable-next-line consistent-return
-        request.post('/api/logins/login', userInfo).then((res) => {
-          const { data } = res;
-          if (data.code === 10001 && data.permission === 1) {
-            data.token = {
-              main_: 'main_token',
-            };
-          }
-        });
-        // eslint-disable-next-line no-use-before-define
-        return res;
+        return request.post('/api/logins/login', userInfo);
       };
       const res = await Login(userInfo);
       const { data } = res;
-      console.log(data);
-      if (data.code === 10001) {
-        this.token = data.token;
+      // 权限
+      if (data.code === 10001 && data.permission === 1) {
+        this.token = 'main_token';
       } else {
         throw res;
       }
