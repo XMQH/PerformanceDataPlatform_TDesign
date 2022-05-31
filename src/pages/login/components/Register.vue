@@ -84,11 +84,11 @@ const rePassword = (val) =>
 
 // 校验账号输入框不能有特殊字符
 // eslint-disable-next-line consistent-return
-const passwordValidator = (pas) => {
+const passwordValidator = (val) => {
   const validPattern = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
-  for (let i = 0; i < pas.length; i++) {
-    if (validPattern.indexOf(pas.substr(i, 1)) !== -1) {
-      pas.substr(i, 1);
+  for (let i = 0; i < val.length; i++) {
+    if (validPattern.indexOf(val.substr(i, 1)) !== -1) {
+      val.substr(i, 1);
       return { message: '不能输入特殊字符！', type: 'error' };
     }
   }
