@@ -5,6 +5,7 @@ import request from '@/utils/request';
 
 const InitUserInfo = {
   roles: [],
+  msg: '',
 };
 
 export const useUserStore = defineStore('user', {
@@ -16,18 +17,20 @@ export const useUserStore = defineStore('user', {
     roles: (state) => {
       return state.userInfo?.roles;
     },
+    message: (state) => {
+      return state.userInfo?.msg;
+    },
   },
   actions: {
     async login(userInfo: Record<string, unknown>) {
       const Login = async (userInfo: Record<string, unknown>) => {
         // 登录请求流程
-        // eslint-disable-next-line consistent-return
         return request.post('/api/logins/login', userInfo);
       };
       const res = await Login(userInfo);
       const { data } = res;
-      // 权限
-      if (data.code === 10001 && data.permission === 1) {
+      // 权限 data.permission === 1
+      if (data.code === 10001 && data.data.permission === 1) {
         this.token = 'main_token';
       } else {
         throw res;

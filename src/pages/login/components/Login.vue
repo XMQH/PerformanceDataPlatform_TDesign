@@ -33,10 +33,10 @@
         </t-input>
       </t-form-item>
 
-      <div class="check-container remember-pwd">
-        <t-checkbox>记住账号</t-checkbox>
-        <span class="tip">忘记账号？</span>
-      </div>
+      <!--      <div class="check-container remember-pwd">-->
+      <!--        <t-checkbox>记住账号</t-checkbox>-->
+      <!--        <span class="tip">忘记账号？</span>-->
+      <!--      </div>-->
     </template>
     <t-form-item v-if="type !== 'qrcode'" class="btn-container">
       <t-button block size="large" type="submit"> 登录 </t-button>
@@ -47,38 +47,32 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-// import QrcodeVue from 'qrcode.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-// import { useCounter } from '@/hooks';
 import { useUserStore } from '@/store';
-import request from '@/utils/request';
+
 const userStore = useUserStore();
 
 const INITIAL_DATA = {
   userAccount: 'admin',
   userPassword: '123456',
-  // checked: false,
 };
 
 const FORM_RULES = {
-  userAccount: [{ required: true, message: '账号必填', type: 'error' }],
+  userAccount: [
+    { required: true, message: '账号必填', type: 'error' },
+    { min: 4, message: '帐号需大于4位', type: 'error' },
+    { max: 10, message: '帐号需小于10位', type: 'error' },
+  ],
   userPassword: [
     { required: true, message: '密码必填', type: 'error' },
-    { min: 4, message: '密码长度大于四位', type: 'error' },
+    { min: 4, message: '帐号需大于4位', type: 'error' },
+    { max: 10, message: '帐号需小于10位', type: 'error' },
   ],
 };
 
 const type = ref('password');
-
 const formData = ref({ ...INITIAL_DATA });
 const showPsw = ref(false);
-
-// const [countDown, handleCounter] = useCounter();
-//
-// const switchType = (val: string) => {
-//   type.value = val;
-// };
-
 const router = useRouter();
 
 console.log(formData);
@@ -86,12 +80,11 @@ const onSubmit = async ({ validateResult }) => {
   if (validateResult === true) {
     try {
       await userStore.login(formData.value);
-      MessagePlugin.success('登陆成功');
+      MessagePlugin.success('登录成功');
       router.push({
         path: '/dashboard/base',
       });
     } catch (e) {
-      // console.log(e);
       MessagePlugin.error(e.message);
     }
   }

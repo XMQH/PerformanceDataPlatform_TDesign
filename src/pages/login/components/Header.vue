@@ -19,11 +19,10 @@ const toggleSettingPanel = () => {
     showSettingPanel: true,
   });
 };
-
 </script>
 
 <style lang="less" scoped>
-@import '@/style/variables.less';
+@import './src/style/variables.less';
 .login-header {
   height: 64px;
   padding: 0 24px;

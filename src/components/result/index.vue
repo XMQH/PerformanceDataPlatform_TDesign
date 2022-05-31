@@ -44,7 +44,7 @@ const dynamicComponent = computed(() => {
 });
 </script>
 <style lang="less" scoped>
-@import '@/style/variables';
+@import './src/style/variables';
 
 .result {
   &-link {

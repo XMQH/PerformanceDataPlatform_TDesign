@@ -94,7 +94,7 @@ const handleClickDelete = (product: CardProductType) => {
 </script>
 
 <style lang="less" scoped>
-@import '@/style/variables';
+@import './src/style/variables';
 
 .list-card-item {
   display: flex;
