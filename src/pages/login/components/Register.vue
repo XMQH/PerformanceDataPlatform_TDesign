@@ -84,32 +84,31 @@ const rePassword = (val) =>
 
 // 校验账号输入框不能有特殊字符
 // eslint-disable-next-line consistent-return
-const passwordValidator = (val) => {
-  const validPattern = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
-  for (let i = 0; i < val.length; i++) {
-    if (validPattern.indexOf(val.substr(i, 1)) !== -1) {
-      val.substr(i, 1);
-      return { message: '不能输入特殊字符！', type: 'error' };
-    }
+const accountValidator = (val) => {
+  // const validPattern = "[/`~!@#$%^&*()+=|{}':;',\\[\\].<>?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+  const replace = val.replace(/[\u4e00-\u9fa5/\s+/]|[^a-zA-Z0-9\u4E00-\u9FA5]/g, '');
+  if (!replace) {
+    return { result: false, message: '只允许输入数字、字母！', type: 'error' };
   }
+  return { result: true };
 };
+
 const FORM_RULES = {
   userAccount: [
-    { required: true, message: '帐号必填', type: 'error' },
-    { validator: passwordValidator },
-    { min: 4, message: '帐号需大于4位', type: 'error' },
-    { max: 10, message: '帐号需小于10位', type: 'error' },
-
+    { required: true, message: '帐号必填！', type: 'error' },
+    { validator: accountValidator },
+    { min: 4, message: '帐号需大于4位！', type: 'error' },
+    { max: 10, message: '帐号需小于10位！', type: 'error' },
   ],
   password: [
-    { required: true, message: '密码必填', type: 'error' },
-    { min: 4, max: 16, message: '密码需大于4位小于16位', type: 'error' },
+    { required: true, message: '密码必填！', type: 'error' },
+    { min: 4, max: 16, message: '密码需大于4位小于16位！', type: 'error' },
   ],
   checkPassword: [
-    { required: true, message: '密码必填', type: 'error' },
-    { min: 4, message: '帐号需大于4位', type: 'error' },
-    { max: 10, message: '帐号需小于10位', type: 'error' },
-    { validator: rePassword, message: '两次密码输入不一致', type: 'error' },
+    { required: true, message: '密码必填！', type: 'error' },
+    { min: 4, message: '帐号需大于4位！', type: 'error' },
+    { max: 10, message: '帐号需小于10位！', type: 'error' },
+    { validator: rePassword, message: '两次密码输入不一致！', type: 'error' },
   ],
 };
 

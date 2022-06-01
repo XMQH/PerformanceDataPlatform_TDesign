@@ -56,12 +56,20 @@ const INITIAL_DATA = {
   userAccount: 'admin',
   userPassword: '123456',
 };
-
+const accountValidator = (val) => {
+  // const validPattern = "[/`~!@#$%^&*()+=|{}':;',\\[\\].<>?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+  const replace = val.replace(/[\u4e00-\u9fa5/\s+/]|[^a-zA-Z0-9\u4E00-\u9FA5]/g, '');
+  if (!replace) {
+    return { result: false, message: '只允许输入数字、字母！', type: 'error' };
+  }
+  return { result: true };
+};
 const FORM_RULES = {
   userAccount: [
-    { required: true, message: '账号必填', type: 'error' },
-    { min: 4, message: '帐号需大于4位', type: 'error' },
-    { max: 10, message: '帐号需小于10位', type: 'error' },
+    { required: true, message: '帐号必填！', type: 'error' },
+    { validator: accountValidator },
+    { min: 4, message: '帐号需大于4位！', type: 'error' },
+    { max: 10, message: '帐号需小于10位！', type: 'error' },
   ],
   userPassword: [
     { required: true, message: '密码必填', type: 'error' },
