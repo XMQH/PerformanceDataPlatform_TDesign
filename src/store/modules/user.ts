@@ -6,6 +6,14 @@ import request from '@/utils/request';
 const InitUserInfo = {
   roles: [],
   msg: '',
+  // userId: 0,
+  // username: '',
+  // avatar: '',
+  // gender: 0,
+  // phone: '',
+  // email: '',
+  // nickname: '',
+  // description: '',
 };
 
 export const useUserStore = defineStore('user', {
@@ -20,6 +28,30 @@ export const useUserStore = defineStore('user', {
     message: (state) => {
       return state.userInfo?.msg;
     },
+    // userId: (state) => {
+    //   return state.userInfo?.userId;
+    // },
+    // username: (state) => {
+    //   return state.userInfo?.username;
+    // },
+    // avatar: (state) => {
+    //   return state.userInfo?.avatar;
+    // },
+    // gender: (state) => {
+    //   return state.userInfo?.gender;
+    // },
+    // phone: (state) => {
+    //   return state.userInfo?.phone;
+    // },
+    // email: (state) => {
+    //   return state.userInfo?.email;
+    // },
+    // nickname: (state) => {
+    //   return state.userInfo?.nickname;
+    // },
+    // description: (state) => {
+    //   return state.userInfo?.description;
+    // },
   },
   actions: {
     async login(userInfo: Record<string, unknown>) {
@@ -40,6 +72,7 @@ export const useUserStore = defineStore('user', {
       const RemoteUserInfo = async (token: string) => {
         if (token === 'main_token') {
           return {
+            // 需添加user信息
             roles: ['all'],
           };
         }
@@ -47,9 +80,7 @@ export const useUserStore = defineStore('user', {
           roles: ['UserIndex', 'DashboardBase', 'login'],
         };
       };
-
       const res = await RemoteUserInfo(this.token);
-
       this.userInfo = res;
     },
     async logout() {
