@@ -49,6 +49,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useUserStore } from '@/store';
+import { storeToRefs } from "pinia";
 
 const userStore = useUserStore();
 
@@ -83,12 +84,11 @@ const formData = ref({ ...INITIAL_DATA });
 const showPsw = ref(false);
 const router = useRouter();
 
-console.log(formData);
 const onSubmit = async ({ validateResult }) => {
   if (validateResult === true) {
     try {
       await userStore.login(formData.value);
-      MessagePlugin.success('登录成功');
+      MessagePlugin.success(userStore.message);
       router.push({
         path: '/dashboard/base',
       });

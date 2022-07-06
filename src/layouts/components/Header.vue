@@ -36,7 +36,7 @@
                 <t-icon class="header-user-avatar" name="user-circle" />
               </template>
               <div class="header-user-account">
-                {{ userInfo.username }}
+                {{ users.nickname }}
                 <t-icon name="chevron-down" />
               </div>
             </t-button>
@@ -97,7 +97,7 @@ const props = defineProps({
   },
 });
 const userStore = useUserStore();
-const { userInfo } = storeToRefs(userStore);
+const { users } = storeToRefs(userStore);
 
 const router = useRouter();
 const settingStore = useSettingStore();
